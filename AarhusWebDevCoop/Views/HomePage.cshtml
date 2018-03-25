@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.HomePage>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+
+<h1 class="text-center">Our 5 latest projects</h1>
+@Umbraco.RenderMacro("listNewestProjects")
+<div class="row">
+	@{
+		var typedMediaPickerSingle = Model.Content.GetPropertyValue<IPublishedContent>("logo");
+		if (typedMediaPickerSingle != null)
+		{
+			<img src="@typedMediaPickerSingle.Url" class="logo" style="margin:0 auto; padding: 2%; display: block" alt="@typedMediaPickerSingle.GetPropertyValue("alt")" />
+		}
+	}
+</div>
+@Umbraco.Field("mainContent")
+<footer>
+	<p class="text-center">@Umbraco.Field("footer")</p>
+</footer>

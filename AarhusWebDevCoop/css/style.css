@@ -1,0 +1,25 @@
+﻿.col-centered {
+	text-align: center;
+}
+
+.logo,
+.headerText {
+	display: inline-block;
+}
+
+.headerText {
+
+}
+
+.thumbnailImage {
+	height: 200px !important;
+	width: 100%;
+	object-fit: cover;
+}
+
+.truncateText {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}

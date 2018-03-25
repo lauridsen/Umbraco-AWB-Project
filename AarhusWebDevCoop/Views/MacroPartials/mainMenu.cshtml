@@ -1,0 +1,49 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web
+
+@{var root = Model.Content.Site();}
+@{ var selection = root.Children.Where(x => x.IsVisible()).ToArray(); }
+<li class="@((Model.Content.Name == root.Name) ? "active" : null)">
+	<a href="/">@root.Name</a>
+</li>
+@if (selection.Length > 0)
+{
+	foreach (var item in selection)
+	{
+		if (item.Children != null && item.Children.Count() > 0)
+		{
+			<li role="presentation" class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+					@item.Name <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					@foreach (var menuSecond in item.Children.Where(x => x.IsVisible()))
+					{
+						var isProtected = umbraco.library.IsProtected(menuSecond.Id, menuSecond.Path);
+						var loginAccess = umbraco.library.IsProtected(menuSecond.Id, menuSecond.Path) && umbraco.library.HasAccess(menuSecond.Id, menuSecond.Path);
+						if (!isProtected || loginAccess)
+						{
+							if (menuSecond.Parent.DocumentTypeAlias == "projectsOverview")
+							{
+								if (Umbraco.GetPreValueAsString(menuSecond.GetPropertyValue<int>("projectStatus")) == "Completed")
+								{
+									<li><a href="@menuSecond.Url">@menuSecond.Name</a></li>
+								}
+							}
+							else
+							{
+								<li><a href="@menuSecond.Url">@menuSecond.Name</a></li>
+							}
+						}
+					}
+				</ul>
+			</li>
+		}
+		else
+		{
+			<li class="@(item.IsAncestorOrSelf(Model.Content) ? "active" : null)">
+				<a href="@item.Url">@item.Name</a>
+			</li>
+		}
+	}
+}

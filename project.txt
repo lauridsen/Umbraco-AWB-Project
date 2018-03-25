@@ -1,0 +1,3 @@
+Admin: Pjuker@gmail.com UmbracoPass1234!
+Active: CamillaH UmbracoPass1234
+Guest: Zerael UmbracoPass1234

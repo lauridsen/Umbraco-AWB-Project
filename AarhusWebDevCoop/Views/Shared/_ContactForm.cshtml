@@ -1,0 +1,50 @@
+﻿@model AarhusWebDevCoop.ViewModels.ContactForm
+
+@if (TempData["success"] == null)
+{
+	using (Html.BeginUmbracoForm("HandleFormSubmit", "ContactForm", new object { }, new { @class = "form-horizontal" }))
+	{
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" })
+			<div class="col-sm-6">
+				@Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Your name" })
+			</div>
+			<p class="text-danger">@Html.ValidationMessageFor(model => model.Name)</p>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" })
+			<div class="col-sm-6">
+				@Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email address" })
+			</div>
+			<p class="text-danger">@Html.ValidationMessageFor(model => model.Email)</p>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Subject, new { @class = "col-sm-2 control-label" })
+			<div class="col-sm-6">
+				@Html.TextBoxFor(model => model.Subject, new { @class = "form-control", placeholder = "Subject" })
+			</div>
+			<p class="text-danger">@Html.ValidationMessageFor(model => model.Subject)</p>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Message, new { @class = "col-sm-2 control-label" })
+			<div class="col-sm-6">
+				@Html.TextAreaFor(model => model.Message, new { @class = "form-control", placeholder = "Message" })
+			</div>
+			<p class="text-danger">@Html.ValidationMessageFor(model => model.Message)</p><br />
+		</div>
+
+		@*<textarea name="Message">Enter your message here</textarea>*@
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-6">
+				<input type="submit" value="Submit" class="btn btn-primary input-medium pull-left">
+			</div>
+		</div>
+	}
+}
+else
+{
+	<p>@TempData["name"], your email has been sent </p>
+
+}

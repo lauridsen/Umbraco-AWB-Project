@@ -1,0 +1,21 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.ProjectsItem>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+@{
+	var typedMediaPickerSingle = Model.Content.GetPropertyValue<IPublishedContent>("projectCover");
+	if (typedMediaPickerSingle != null)
+	{
+		<img src="@typedMediaPickerSingle.Url" class="logo" style="width: 500px" alt="@typedMediaPickerSingle.GetPropertyValue("alt")" />
+	}
+}
+<br>
+<h1>@Model.Content.GetPropertyValue("projectTitle")</h1>
+@if (Model.Content.HasValue("projectStatus"))
+{
+	var preValue = Umbraco.GetPreValueAsString(Model.Content.GetPropertyValue<int>("projectStatus"));
+	<h3>Status: @preValue</h3>
+}
+
+<p>@Model.Content.GetPropertyValue("projectDescription")</p>

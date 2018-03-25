@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web
+
+@{
+	var root = Model.Content.Site().Children
+	.Where("DocumentTypeAlias == \"projectsOverview\"")
+	.First()
+	.Children()
+	.Where("projectStatus.Contains(\"26\")")
+	.OrderBy("CreateDate desc")
+	.Take(5);
+}
+<div class="row">
+	@foreach (var item in root)
+	{
+		if (item.GetPropertyValue<IPublishedContent>("projectCover") != null)
+		{
+			var media = item.GetPropertyValue<IPublishedContent>("projectCover");
+
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+					<img src="@media.Url" class="thumbnailImage">
+					<div class="caption">
+						<h3>@item.Name</h3>
+						<p class="truncateText">@Umbraco.Truncate(item.GetPropertyValue("projectDescription").ToString(), 200, false)</p>
+						<a href="@item.Url" class="btn btn-primary" role="button">See Project</a>
+					</div>
+				</div>
+			</div>
+		}
+	}
+</div>

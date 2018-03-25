@@ -1,0 +1,43 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Members>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Newtonsoft.Json;
+@using Umbraco.Web.Models;
+@{
+	Layout = "Master.cshtml";
+}
+@{
+	var memberService = ApplicationContext.Current.Services.MemberService;
+	var members = memberService.GetMembersByGroup("Active");
+}
+<div class="row">
+	@foreach (var member in members)
+	{
+
+		<div class="col-sm-6 col-md-4">
+			<div class="thumbnail">
+				@if (member.GetValue<String>
+			("photo") != null)
+				{
+					string image = member.GetValue<string>
+						("photo");
+					if (image != null)
+					{
+						ImageCropDataSet imageCrop = JsonConvert.DeserializeObject<ImageCropDataSet>
+						(image);
+						string imagePath = imageCrop.Src.GetCropUrl(height: 300);
+						<img src="@imagePath" class="thumbnailImage" />}
+				}
+				<div class="caption">
+					<h3>@member.Name</h3>
+					<p>@member.GetValue("address")</p>
+					<p> @member.GetValue("zip") @member.GetValue("city") </p>
+					@{String[] skills = member.GetValue("skills").ToString().Split(',');
+						string skillString = string.Join(", ", from skill in skills select umbraco.library.GetPreValueAsString(Convert.ToInt32(skill)));
+					}
+					<p>@skillString</p>
+				</div>
+			</div>
+		</div>
+			}
+</div>
+
